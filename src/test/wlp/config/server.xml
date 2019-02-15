@@ -3,6 +3,6 @@
   <featureManager>
     <feature>webProfile-${javaee.version}</feature>
   </featureManager>
-  <httpEndpoint id="defaultHttpEndpoint" httpsPort="-1" />
+  <httpEndpoint id="defaultHttpEndpoint" httpPort="9080" httpsPort="-1" />
   <webApplication contextRoot="acme" location="${project.build.finalName}.war" />
 </server>
