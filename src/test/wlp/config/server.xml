@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+  <featureManager>
+    <feature>webProfile-${javaee.version}</feature>
+  </featureManager>
+  <httpEndpoint id="defaultHttpEndpoint" httpsPort="-1" />
+  <webApplication contextRoot="acme" location="${project.build.finalName}.war" />
+</server>
