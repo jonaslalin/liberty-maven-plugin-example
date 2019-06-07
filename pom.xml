@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.acme</groupId>
@@ -9,141 +8,157 @@
   <packaging>war</packaging>
 
   <properties>
-    <java.min.version>1.8</java.min.version>
-    <maven.min.version>3.0.5</maven.min.version>
-    <javaee.version>8.0</javaee.version>
-    <liberty-maven-plugin.version>2.6.4</liberty-maven-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jboss.arquillian</groupId>
+        <artifactId>arquillian-bom</artifactId>
+        <version>1.4.1.Final</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-web-api</artifactId>
-      <version>${javaee.version}</version>
+      <version>8.0</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.arquillian.junit</groupId>
+      <artifactId>arquillian-junit-container</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.openliberty.arquillian</groupId>
+      <artifactId>arquillian-liberty-managed</artifactId>
+      <version>1.0.6</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.0.0-M1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>3.0.0-M1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M3</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>3.2.2</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.1.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
         <configuration>
-          <source>${java.min.version}</source>
-          <target>${java.min.version}</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.0.0-M2</version>
         <executions>
           <execution>
-            <id>enforce-versions</id>
+            <id>enforce-maven-version</id>
             <goals>
               <goal>enforce</goal>
             </goals>
             <configuration>
               <rules>
                 <requireMavenVersion>
-                  <version>${maven.min.version}</version>
+                  <version>3.0.5</version>
                 </requireMavenVersion>
-                <requireJavaVersion>
-                  <version>${java.min.version}</version>
-                </requireJavaVersion>
               </rules>
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>3.0.0-M3</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>3.0.0-M1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.1.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M3</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.3</version>
       </plugin>
     </plugins>
   </build>
 
   <profiles>
     <profile>
-      <id>custom-liberty</id>
+      <id>liberty</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
-        <wlp.install.dir>${env.LIBERTY_HOME}</wlp.install.dir>
-        <wlp.user.dir>${project.build.directory}/wlp/usr</wlp.user.dir>
-        <wlp.server.name>${project.artifactId}</wlp.server.name>
-        <wlp.server.template.dir>${project.build.directory}/wlp/templates/servers/${wlp.server.name}</wlp.server.template.dir>
+        <liberty.installDirectory>${env.LIBERTY_HOME}</liberty.installDirectory>
+        <liberty.userDirectory>${project.build.directory}/liberty/usr</liberty.userDirectory>
+        <liberty.serverName>${project.artifactId}</liberty.serverName>
+        <liberty.configDirectory>${project.build.directory}/liberty/templates/servers/${liberty.serverName}</liberty.configDirectory>
       </properties>
       <build>
-        <finalName>${project.artifactId}</finalName>
-        <resources>
-          <resource>
-            <directory>${project.basedir}/src/test/wlp/config</directory>
-            <targetPath>${wlp.server.template.dir}</targetPath>
+        <testResources>
+          <testResource>
+            <directory>${project.basedir}/src/test/liberty/config</directory>
+            <targetPath>${liberty.configDirectory}</targetPath>
             <filtering>true</filtering>
-          </resource>
-        </resources>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>net.wasdev.wlp.maven.plugins</groupId>
-              <artifactId>liberty-maven-plugin</artifactId>
-              <version>${liberty-maven-plugin.version}</version>
-            </plugin>
-          </plugins>
-        </pluginManagement>
+          </testResource>
+        </testResources>
         <plugins>
           <plugin>
             <groupId>net.wasdev.wlp.maven.plugins</groupId>
             <artifactId>liberty-maven-plugin</artifactId>
+            <version>2.6.4</version>
             <configuration>
-              <installDirectory>${wlp.install.dir}</installDirectory>
-              <userDirectory>${wlp.user.dir}</userDirectory>
-              <serverName>${wlp.server.name}</serverName>
-              <configDirectory>${wlp.server.template.dir}</configDirectory>
+              <installDirectory>${liberty.installDirectory}</installDirectory>
+              <userDirectory>${liberty.userDirectory}</userDirectory>
+              <serverName>${liberty.serverName}</serverName>
+              <configDirectory>${liberty.configDirectory}</configDirectory>
               <looseApplication>true</looseApplication>
               <installAppPackages>project</installAppPackages>
             </configuration>
             <executions>
               <execution>
-                <id>stop-server-before-clean</id>
+                <id>stop-server</id>
                 <phase>pre-clean</phase>
                 <goals>
                   <goal>stop-server</goal>
@@ -153,7 +168,6 @@
                 <id>create-server</id>
                 <phase>prepare-package</phase>
                 <goals>
-                  <goal>install-server</goal>
                   <goal>create-server</goal>
                 </goals>
               </execution>
@@ -172,27 +186,10 @@
                 </goals>
               </execution>
               <execution>
-                <id>package-server</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>package-server</goal>
-                </goals>
-                <configuration>
-                  <skipLibertyPackage>true</skipLibertyPackage>
-                </configuration>
-              </execution>
-              <execution>
-                <id>test-start-server</id>
+                <id>configure-arquillian</id>
                 <phase>pre-integration-test</phase>
                 <goals>
-                  <goal>test-start-server</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>test-stop-server</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>test-stop-server</goal>
+                  <goal>configure-arquillian</goal>
                 </goals>
               </execution>
             </executions>
