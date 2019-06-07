@@ -11,12 +11,7 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.TEXT_PLAIN)
 public class HelloController {
     @Inject
-    private final HelloService helloService;
-
-    @Inject
-    public HelloController(HelloService helloService) {
-        this.helloService = helloService;
-    }
+    private HelloService helloService;
 
     @GET
     public String hello(@QueryParam("name") String name) {
