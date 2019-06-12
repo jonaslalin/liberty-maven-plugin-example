@@ -56,6 +56,9 @@
     <finalName>${project.artifactId}</finalName>
     <testResources>
       <testResource>
+        <directory>${project.basedir}/src/test/resources</directory>
+      </testResource>
+      <testResource>
         <directory>${project.basedir}/src/test/liberty/config</directory>
         <targetPath>${project.build.directory}/liberty/config</targetPath>
         <filtering>true</filtering>
