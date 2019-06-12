@@ -15,6 +15,6 @@ public class HelloController {
 
     @GET
     public String hello(@QueryParam("name") String name) {
-        return this.helloService.createGreeting(name);
+        return helloService.createGreeting(name);
     }
 }

@@ -1,7 +1,6 @@
 package com.acme.pingpong;
 
 import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
 public class HelloServiceTest {
@@ -9,6 +8,6 @@ public class HelloServiceTest {
 
     @Test
     public void shouldSayHi() {
-        assertEquals("Hello, World!", this.helloService.createGreeting("World"));
+        assertEquals("Hello, World!", helloService.createGreeting("World"));
     }
 }
