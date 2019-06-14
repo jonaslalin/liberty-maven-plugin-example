@@ -66,16 +66,6 @@
   </dependencies>
   <build>
     <finalName>${project.artifactId}</finalName>
-    <testResources>
-      <testResource>
-        <directory>${project.basedir}/src/test/resources</directory>
-      </testResource>
-      <testResource>
-        <directory>${project.basedir}/src/test/liberty/config</directory>
-        <targetPath>${project.build.directory}/liberty/config</targetPath>
-        <filtering>true</filtering>
-      </testResource>
-    </testResources>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -155,14 +145,18 @@
         <artifactId>liberty-maven-plugin</artifactId>
         <configuration>
           <serverName>${project.artifactId}</serverName>
-          <configDirectory>${project.build.directory}/liberty/config</configDirectory>
-          <looseApplication>true</looseApplication>
-          <installAppPackages>project</installAppPackages>
         </configuration>
         <executions>
           <execution>
-            <id>stop-server</id>
+            <id>stop-server-before-clean</id>
             <phase>pre-clean</phase>
+            <goals>
+              <goal>stop-server</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stop-server-before-prepare-package</id>
+            <phase>prepare-package</phase>
             <goals>
               <goal>stop-server</goal>
             </goals>
@@ -188,19 +182,65 @@
             <goals>
               <goal>create-server</goal>
             </goals>
+            <configuration>
+              <configDirectory>${project.build.directory}/liberty/config</configDirectory>
+            </configuration>
           </execution>
           <execution>
-            <id>install-apps</id>
-            <phase>package</phase>
+            <id>clean-server</id>
+            <phase>prepare-package</phase>
             <goals>
-              <goal>install-apps</goal>
+              <goal>clean-server</goal>
             </goals>
+            <configuration>
+              <dropins>true</dropins>
+              <apps>true</apps>
+            </configuration>
           </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
   <profiles>
+    <profile>
+      <id>dev</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <testResources>
+          <testResource>
+            <directory>${project.basedir}/src/test/resources</directory>
+          </testResource>
+          <testResource>
+            <directory>${project.basedir}/src/test/liberty/config-dev</directory>
+            <targetPath>${project.build.directory}/liberty/config</targetPath>
+            <filtering>true</filtering>
+          </testResource>
+        </testResources>
+        <plugins>
+          <plugin>
+            <groupId>net.wasdev.wlp.maven.plugins</groupId>
+            <artifactId>liberty-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>install-apps</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>install-apps</goal>
+                </goals>
+                <configuration>
+                  <serverName>${project.artifactId}</serverName>
+                  <appsDirectory>apps</appsDirectory>
+                  <looseApplication>true</looseApplication>
+                  <installAppPackages>project</installAppPackages>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>arquillian</id>
       <build>

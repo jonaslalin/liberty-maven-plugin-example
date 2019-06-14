@@ -14,7 +14,9 @@ import org.junit.runner.RunWith;
 public class HelloControllerIT {
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class)
+        return ShrinkWrap.create(
+                WebArchive.class,
+                HelloControllerIT.class.getName() + ".war")
                 .addClasses(
                         HelloService.class,
                         HelloController.class)
