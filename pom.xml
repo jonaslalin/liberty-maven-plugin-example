@@ -155,7 +155,7 @@
             </goals>
           </execution>
           <execution>
-            <id>stop-server-before-prepare-package</id>
+            <id>stop-server</id>
             <phase>prepare-package</phase>
             <goals>
               <goal>stop-server</goal>
@@ -168,6 +168,7 @@
               <goal>install-server</goal>
             </goals>
             <configuration>
+              <appsDirectory>apps</appsDirectory>
               <assemblyArtifact>
                 <groupId>io.openliberty</groupId>
                 <artifactId>openliberty-runtime</artifactId>
@@ -184,6 +185,7 @@
             </goals>
             <configuration>
               <configDirectory>${project.build.directory}/liberty/config</configDirectory>
+              <appsDirectory>apps</appsDirectory>
             </configuration>
           </execution>
           <execution>
@@ -231,9 +233,10 @@
                 </goals>
                 <configuration>
                   <serverName>${project.artifactId}</serverName>
+                  <configDirectory>${project.build.directory}/liberty/config</configDirectory>
                   <appsDirectory>apps</appsDirectory>
-                  <looseApplication>true</looseApplication>
                   <installAppPackages>project</installAppPackages>
+                  <looseApplication>true</looseApplication>
                 </configuration>
               </execution>
             </executions>
