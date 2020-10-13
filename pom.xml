@@ -14,7 +14,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <liberty.version>19.0.0.5</liberty.version>
-    <junit.version>4.12</junit.version>
+    <junit.version>4.13.1</junit.version>
     <cxf-rt-rs-client.version>3.3.2</cxf-rt-rs-client.version>
     <arquillian.version>1.4.1.Final</arquillian.version>
     <arquillian-liberty.version>1.0.6</arquillian-liberty.version>
